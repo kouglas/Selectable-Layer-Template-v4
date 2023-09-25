@@ -50,9 +50,11 @@
 <script src="./data/line.js"></script>
 <script src="./data/point.js"></script>
 <script src="./data/polygon.js"></script>
+<script src="./data/usstates.js"></script>
+<!--<script src="./data/Schools.js"></script>-->
 <script src="./data/nepaldata.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-<script src="./data/usstates.js"></script>
+
 <script>
 
     /*===================================================
@@ -117,6 +119,19 @@ Stamen_Watercolor.addTo(map);
 var linedata = L.geoJSON(lineJSON).addTo(map);
 var pointdata = L.geoJSON(pointJSON).addTo(map);
 var nepalData = L.geoJSON(nepaldataa).addTo(map);
+//var usstates = L.geoJSON(usstates).addTo(map);
+//var Schools = L.geoJSON(Schools).addTo(map);
+var usstates = L.geoJSON(polygonJSON,{
+    onEachFeature: function(feature,layer){
+        layer.bindPopup('<b>This is a </b>' + feature.properties.name)
+    },
+    style:{
+        fillColor: 'red',
+        fillOpacity:1,
+        color: 'green'
+    }
+}).addTo(map); 
+
 var polygondata = L.geoJSON(polygonJSON,{
     onEachFeature: function(feature,layer){
         layer.bindPopup('<b>This is a </b>' + feature.properties.name)
@@ -132,6 +147,11 @@ var polygondata = L.geoJSON(polygonJSON,{
                       LAYER CONTROL               
 ===================================================*/
 
+var overlays = {
+    "usstatestates": usstates,
+    // ... other overlays
+}; 
+    
 var baseLayers = {
     "Satellite":googleSat,
     "Google Map":googleStreets,
@@ -140,11 +160,12 @@ var baseLayers = {
 };
 
 var overlays = {
+    "usstates": polygondata,
+//    "Schools":pointdata,
     "Marker": singleMarker,
     "PointData":pointdata,
     "LineData":linedata,
-    "PolygonData":polygondata
-    
+    "PolygonData":polygondata 
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);
@@ -161,7 +182,7 @@ L.Control.geocoder().addTo(map);
                       Choropleth Map               
 ===================================================*/
 
-L.geoJSON(statesData).addTo(map);
+L.geoJSON(usstates).addTo(map);
 
 
 function getColor(d) {
@@ -186,7 +207,7 @@ function style(feature) {
     };
 }
 
-L.geoJson(statesData, {style: style}).addTo(map);
+L.geoJson(usstates, {style: style}).addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -212,7 +233,7 @@ function resetHighlight(e) {
 
 var geojson;
 // ... our listeners
-geojson = L.geoJson(statesData);
+geojson = L.geoJson(usstates);
 
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
@@ -226,7 +247,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
-geojson = L.geoJson(statesData, {
+geojson = L.geoJson(usstates, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
