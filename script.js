@@ -61,8 +61,10 @@ Stamen_Watercolor.addTo(map);
 var linedata = L.geoJSON(lineJSON).addTo(map);
 var pointdata = L.geoJSON(pointJSON).addTo(map);
 var nepalData = L.geoJSON(nepaldataa).addTo(map);
-//var usstates = L.geoJSON(usstates).addTo(map);
-//var Schools = L.geoJSON(Schools).addTo(map);
+var usstates = L.geoJSON(usstates).addTo(map);
+var Schools = L.geoJSON(Schools).addTo(map);
+
+
 var usstates = L.geoJSON(polygonJSON,{
     onEachFeature: function(feature,layer){
         layer.bindPopup('<b>This is a </b>' + feature.properties.name)
@@ -89,10 +91,10 @@ var polygondata = L.geoJSON(polygonJSON,{
                       LAYER CONTROL               
 ===================================================*/
 
-var overlays = {
-    "usstatestates": usstates,
-    // ... other overlays
-}; 
+// var overlays = {
+//     "usstatestates": usstates,
+//     // ... other overlays
+// }; 
     
 var baseLayers = {
     "Satellite":googleSat,
@@ -102,12 +104,12 @@ var baseLayers = {
 };
 
 var overlays = {
-    "usstates": polygondata,
+    "usstates": usstates,
 //    "Schools":pointdata,
     "Marker": singleMarker,
     "PointData":pointdata,
     "LineData":linedata,
-    "PolygonData":polygondata 
+    "PolygonData":nepalData 
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);
@@ -123,8 +125,8 @@ L.Control.geocoder().addTo(map);
 /*===================================================
                       Choropleth Map               
 ===================================================*/
-
-L.geoJSON(usstates).addTo(map);
+//need to figure out what this is doing
+// L.geoJSON(usstates).addTo(map);
 
 
 function getColor(d) {
@@ -148,8 +150,8 @@ function style(feature) {
         fillOpacity: 0.7
     };
 }
-
-L.geoJson(usstates, {style: style}).addTo(map);
+//need to figure out what this is doing
+// L.geoJson(usstates, {style: style}).addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -173,9 +175,10 @@ function resetHighlight(e) {
     info.update();
 }
 
-var geojson;
-// ... our listeners
-geojson = L.geoJson(usstates);
+//need to figure out what this is doing
+// var geojson;
+// // ... our listeners
+// geojson = L.geoJson(usstates);
 
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
@@ -189,10 +192,11 @@ function onEachFeature(feature, layer) {
     });
 }
 
-geojson = L.geoJson(usstates, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map);
+//need to figure out what this is doing
+// geojson = L.geoJson(usstates, {
+//     style: style,
+//     onEachFeature: onEachFeature
+// }).addTo(map);
 
 var info = L.control();
 
